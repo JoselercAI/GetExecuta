@@ -2,74 +2,54 @@
 
 import { useState } from "react";
 
+const logos = ["Goldman Sachs", "JP Morgan", "Morgan Stanley", "KKR", "Blackstone", "Apollo", "Lazard", "Rothschild & Co", "Nomura", "UBS", "Baird", "EY", "Deloitte", "KPMG", "PwC"];
+
+const clients = [
+  ["01", "Investment Banks", "Coverage and M&A teams at global and regional investment banks. Deal execution at scale - without scaling headcount.", ["Analyst productivity at VP standard", "Pitch book and CIM generation in hours", "Multi-deal workflow automation", "Comparable transactions from LSEG and PitchBook", "Compliance-grade audit trail on every output"]],
+  ["02", "M&A Advisory Firms", "Boutique to mid-tier advisory businesses where every mandate matters and the partner is the product. Executa extends the partner's reach without diluting quality.", ["Respond to live mandates the same day", "IC memos that pass the managing partner's standard", "Sell-side process automation from CIM to buyer portal", "Client voice encoded in every deliverable"]],
+  ["03", "Private Equity Firms", "Mid-market PE funds where IC discipline, LP reporting, and portfolio monitoring are board-level responsibilities. Executa becomes the firm's institutional memory.", ["LBO models in 3 minutes with firm-default assumptions", "DD analysis across 6 workstreams simultaneously", "LP quarterly letters generated and queued for review", "Portfolio covenant monitoring - automated monthly", "Deal knowledge base accumulates across every deal"]],
+  ["04", "Transaction Services", "Big-4 and boutique FDD and valuations teams where rigour, source citation, and workstream coverage define the quality of the deliverable.", ["DD report generation across all 6 workstreams", "Every finding cited to source document and page", "200-document data rooms processed in full", "IC chair test applied to every output automatically"]],
+  ["05", "Credit & Debt Advisory", "Debt advisory boutiques, credit funds, and leveraged finance teams where debt capacity, covenant modelling, and credit memos are daily deliverables.", ["Leveraged finance models with debt schedule", "Credit memo generation at institutional standard", "Covenant monitoring across portfolio - monthly", "Lender presentations and term sheet analysis"]],
+  ["06", "Independent Sponsors", "Independent sponsors and search funds operating without a permanent team. Executa provides the analytical firepower of a full deal team at a fraction of the cost.", ["Full deal package - LBO, IC memo, teaser - in one day", "Buyer and LP universe mapping with ranked fit scores", "Deal room analysis without an analyst"]],
+  ["07", "Asset Advisory", "RICS-standard asset valuation firms and property advisory businesses - surveying, Red Book valuations, plant and machinery appraisals, and portfolio assessments produced at scale.", ["Red Book valuation reports in your firm's template and RICS format", "Comparable evidence from registered title data, EPC records, and market databases", "Capital and rental value analysis with yield and growth assumptions cited", "Portfolio valuation runs across multiple assets simultaneously", "RICS methodology, disclaimer language, and assumptions encoded as Skills"]],
+] as const;
+
+const featureTabs = {
+  productivity: ["Productivity", ["Deal Intelligence", "Model Builder", "Workflows", "Enrich"]],
+  time: ["Time", ["Scheduled Tasks", "Market Monitor", "Pre-IC Briefing", "Auto Document Indexing"]],
+  output: ["Institutional Output", ["Document Generation", "Source Citations", "IC Chair Test", "Native Format Export"]],
+  security: ["Security", ["Row Level Security", "EU Data Residency", "SOC 2 Infrastructure", "Zero Data Retention"]],
+  smart: ["Smarter Organisations", ["Organisation Skills", "Team Skills", "Personal Skills", "RAG Knowledge Base"]],
+} as const;
+
 const products = {
-  pe: {
-    tab: "Private Equity",
-    title: "From first look to IC pack in an afternoon",
-    body: "Compress the time between deal identification and IC presentation without reducing analytical quality.",
-    items: ["LBO in 3 minutes with firm defaults", "Full DD across six workstreams", "IC memo with quantified risk", "LP letters and covenant monitoring"],
-    stats: [["Entry multiple", "9.5x"], ["Base IRR", "22.4%"], ["MOIC", "2.7x"], ["Downside IRR", "16.1%"]],
-  },
-  ma: {
-    tab: "M&A Advisory",
-    title: "Pitch more. Win more. Deliver faster.",
-    body: "Respond to live mandates the same day and run sell-side processes from teaser to close.",
-    items: ["Pitch books in hours", "Buyer universe mapping", "Client voice encoded", "Sell-side workflow automation"],
-    stats: [["Teaser", "Ready"], ["CIM", "Drafted"], ["Buyer list", "Ranked"], ["Process letter", "Exported"]],
-  },
-  ib: {
-    tab: "Investment Banking",
-    title: "Banker-grade output. Fraction of the time.",
-    body: "Eliminate the production bottleneck so bankers spend more time on clients and origination.",
-    items: ["Multi-deal workflow management", "Comparable analysis in minutes", "Institutional audit trail", "Pitch book automation"],
-    stats: [["Live mandates", "24"], ["Comps pulled", "118"], ["Slides created", "42"], ["Audit trail", "On"]],
-  },
-  credit: {
-    tab: "Credit & Debt",
-    title: "Credit analysis at the speed of the market",
-    body: "Model debt capacity, generate credit memos and monitor portfolio covenants automatically.",
-    items: ["Leveraged finance models", "Credit memo generation", "Covenant monitoring", "Lender presentations"],
-    stats: [["DSCR", "1.8x"], ["Interest cover", "3.4x"], ["Headroom", "18%"], ["Status", "Clear"]],
-  },
-  asset: {
-    tab: "Asset Advisory",
-    title: "RICS-standard valuations at a fraction of the time",
-    body: "Produce Red Book compliant valuation reports, comparable evidence packs and portfolio assessments.",
-    items: ["Red Book valuation reports", "Comparable evidence retrieval", "Capital and rental value analysis", "Portfolio valuation runs"],
-    stats: [["Reports", "12"], ["Comparables", "86"], ["Evidence packs", "Cited"], ["RICS Skills", "Active"]],
-  },
-};
+  pe: ["Private Equity", "From first look to IC pack in an afternoon", "Mid-market PE funds use Get Executa to compress the time between deal identification and IC presentation - without compressing the quality of the analysis.", ["LBO in 3 minutes - Upload management accounts. Firm default assumptions applied. Sensitivity tables and equity bridge included.", "Full DD across 6 workstreams - Financial, Legal, Commercial, Operational, Management, Regulatory. Every finding cited.", "IC memo that passes your committee - IC Chair Test applied automatically. Deal rating, three risks with EUR impact, management assessment.", "LP quarterly letters - automated - Generated, reviewed, and sent from your address. 40 hours of formatting in one click.", "Portfolio covenant monitoring - Monthly automated check across all covenant metrics. Alerts when headroom falls below 15%."]],
+  ma: ["M&A Advisory", "Pitch more. Win more. Deliver faster.", "M&A advisory firms use Get Executa to respond to live mandates the same day they arise - and to run sell-side processes that reflect the firm's institutional standard from teaser to close.", ["Pitch book in hours - Teaser, CIM, and process letter generated and branded to your firm in one workflow.", "Buyer universe mapping - Strategic and financial sponsors ranked by fit, powered by PitchBook and your firm's CRM.", "Client voice encoded - Your firm's tone, style, and standards applied to every client-facing document automatically.", "Sell-side workflow automation - From exclusivity to buyer portal. Every step automated. Every output approved before release."]],
+  ib: ["Investment Banking", "Banker-grade output. Fraction of the time.", "Investment banking teams use Get Executa to eliminate the production bottleneck - freeing bankers to spend time on client relationships and deal origination rather than formatting pitch books at midnight.", ["Multi-deal workflow management - Pipeline across 20+ mandates. Every deal with its own Skills, knowledge base, and workflow configuration.", "Comparable analysis in 2 minutes - LSEG and PitchBook pulled automatically. EV/EBITDA, EV/Revenue, P/E. Source-cited.", "Institutional audit trail - Every generation logged with context, model used, and source data. MAR and GDPR compliant."]],
+  credit: ["Credit & Debt Advisory", "Credit analysis at the speed of the market", "Credit and debt advisory teams use Get Executa to model debt capacity, generate credit memos, and monitor portfolio covenants - automatically, at institutional standard.", ["Leveraged finance model - Debt schedule, DSCR, interest cover, covenant testing. Firm defaults pre-configured.", "Credit memo generation - Structured credit analysis at the standard your lending syndicate expects.", "Covenant monitoring - automated - Monthly check across all portfolio positions. Alert when headroom falls below your defined threshold."]],
+  asset: ["Asset Advisory", "RICS-standard valuations at a fraction of the time", "Asset valuation and advisory firms use Get Executa to produce Red Book compliant valuation reports, comparable evidence packs, and portfolio assessments - with RICS methodology encoded, assumptions cited, and reports formatted to your firm's standard from day one.", ["Red Book valuation reports - RICS VPS-compliant reports generated in your firm's template. Purpose, basis of value, assumptions, and opinion of value structured automatically.", "Comparable evidence retrieval - Comparable transactions pulled from registered data, EPC records, and market databases. Every comparable cited with address, date, tenure, and adjusted price per sq ft.", "Capital and rental value analysis - Yield, equivalent yield, reversionary yield, and ERV calculated and benchmarked against market evidence. Covenant strength assessed where relevant.", "Portfolio valuation runs - Multiple assets valued in a single instruction. Consistent assumptions applied across the portfolio. Summary schedule generated automatically.", "Plant, machinery & specialist assets - Depreciated replacement cost, market value in continued use, and orderly liquidation value methodologies supported. Encoded to your firm's inspection and reporting standard."]],
+} as const;
 
-const features = [
-  ["Productivity", "Deal Intelligence", "Model Builder", "Workflows", "Enrich"],
-  ["Time", "Scheduled Tasks", "Market Monitor", "Pre-IC Briefing", "Auto Document Indexing"],
-  ["Institutional Output", "Document Generation", "Source Citations", "IC Chair Test", "Native Format Export"],
-  ["Security", "Row Level Security", "EU Data Residency", "SOC 2 Infrastructure", "Zero Data Retention"],
-  ["Smarter Organisations", "Organisation Skills", "Team Skills", "Personal Skills", "RAG Knowledge Base"],
-];
+const testimonials = [
+  ["Get Executa changed what we can offer a client in the first week of a mandate. We had a full CIM, LBO, and DD summary in front of management within four days of signing. That used to take three weeks and a team of four.", "Managing Director", "European M&A Advisory Firm", "MR"],
+  ["The IC memo standard is what convinced the partners. It comes out in our firm's voice, with our deal rating framework, and every risk quantified. The IC chair test catches gaps we used to find at midnight before the meeting.", "Investment Director", "Mid-Market Private Equity Fund", "JP"],
+  ["Our analysts now operate like senior associates and our associates operate like directors. The quality floor is higher than it was before. And I stopped getting calls about covenant checks - they just happen, and I get an alert when something matters.", "Chief Operating Officer", "European Credit Fund", "SC"],
+] as const;
 
-const roles = ["Investment Banks", "M&A Advisory Firms", "Private Equity Firms", "Transaction Services", "Credit & Debt Advisory", "Independent Sponsors", "Asset Advisory", "Valuation Teams", "Portfolio Monitoring"];
-const logos = ["Goldman Sachs", "JP Morgan", "Morgan Stanley", "KKR", "Blackstone", "Apollo", "Lazard", "Rothschild & Co", "Nomura", "UBS"];
-const faqs = [
-  ["What is Get Executa?", "A firm-private AI platform for investment workflows, financial analysis and institutional document generation."],
-  ["Does it connect to our data?", "Yes. It can connect to data rooms, CRM, research, models and internal knowledge bases."],
-  ["Can it match our methodology?", "Yes. Firm assumptions, templates, voice and approval standards are encoded as Skills."],
-  ["Is it secure enough for live deals?", "The platform is designed around firm isolation, EU residency, audit trails and zero retention patterns."],
-];
+type FeatureKey = keyof typeof featureTabs;
+type ProductKey = keyof typeof products;
 
 export default function Home() {
-  const [activeProduct, setActiveProduct] = useState<keyof typeof products>("pe");
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const product = products[activeProduct];
+  const [feature, setFeature] = useState<FeatureKey>("productivity");
+  const [product, setProduct] = useState<ProductKey>("pe");
+  const activeProduct = products[product];
 
   return (
     <>
       <nav className="nav">
         <div className="navLeft">
           <a className="logo" href="#"><span className="mark" /><span>Get Executa</span></a>
-          <div className="navLinks">
-            <a href="#what">Platform</a><a href="#who">Who We Serve</a><a href="#features">Features</a><a href="#product">Product</a><a href="#security">Security</a><a href="#about">About</a>
-          </div>
+          <div className="navLinks"><a href="#what">Platform</a><a href="#who">Who We Serve</a><a href="#features">Features</a><a href="#product">Product</a><a href="#security">Security</a><a href="#about">About</a></div>
         </div>
         <a className="navCta" href="mailto:hello@getexecuta.com">Request a Call</a>
       </nav>
@@ -79,107 +59,108 @@ export default function Home() {
           <div className="container">
             <div className="eyebrow">AI Partner to Finance</div>
             <h1>The intelligence layer for elite financial institutions</h1>
-            <p>Get Executa embeds institutional AI across your deal workflows, turning live data rooms, models and firm methodology into investment-grade outputs.</p>
-            <a className="btn" href="#cta">Request a Call -&gt;</a>
+            <p>Get Executa embeds institutional AI across your deal workflows.</p>
+            <a className="btn" href="#cta">Request a Call</a>
+            <small>EU data residency - Firm-private workspace - SOC 2 infrastructure</small>
           </div>
         </div>
-        <div className="heroVisual">
-          <div className="terminal">
-            <div className="terminalTop"><span><i /><i /><i />Deal Intelligence</span><span>Skills active</span></div>
-            <div className="chat">
-              <div className="msg user">Run a full LBO using our European mid-market defaults. Include downside.</div>
-              <div className="msg">Building Project Helios with your firm&apos;s assumptions, source data and IC memo standard.</div>
-              <div className="metric"><div><small>Base IRR</small><b>22.4%</b></div><div><small>MOIC</small><b>2.7x</b></div><div><small>Downside</small><b>16.1%</b></div></div>
-              <div className="msg">IC memo drafted, assumptions benchmarked and outputs ready for partner review.</div>
-            </div>
-          </div>
-        </div>
+        <HeroTerminal />
       </header>
 
-      <div className="infoStrip">
-        {["Firm-private workspace", "EU-hosted residency", "SOC 2 infrastructure", "Native format outputs"].map((item) => <div className="infoCard" key={item}><small>{item.split(" ")[0]}</small><b>{item}</b></div>)}
-      </div>
+      <Logos />
 
       <section id="what">
         <div className="container">
-          <SectionHead label="What Get Executa does" title="An AI partner that works the way your firm does" body="Purpose-built for investment workflows, deployed inside your firm's data and encoded with your methodology." />
-          <div className="cards">
-            <Card n="1" title="Connect your data universe" body="Data rooms, CRM, models, research and proprietary firm knowledge work as one source of truth." />
-            <Card n="2" title="Encode your firm's methodology" body="Your assumptions, voice, IC standards and templates become reusable Skills." />
-            <Card n="3" title="Generate institutional outputs" body="LBOs, memos, CIMs, DD summaries, valuation reports and monitoring packs in native formats." />
-          </div>
+          <SectionHead align="left" label="What Get Executa does" title="An AI partner that works the way your firm does" body="Get Executa is not a generic AI tool you have to prompt into shape. It is a purpose-built intelligence layer trained on investment workflows - deployed inside your firm's data, encoded with your methodology, and producing outputs at the standard your clients hold you to." />
+          <div className="pillarGrid">{["Connect your data universe", "Encode your firm's methodology", "Generate institutional outputs", "Automate deal workflows"].map((item, i) => <article className="pillar" key={item}><span>{String(i + 1).padStart(2, "0")}</span><b>{item}</b></article>)}</div>
         </div>
       </section>
 
-      <section id="who">
-        <div className="container split">
-          <div><div className="label">Who Get Executa serves</div><h2>Built for every corner of finance</h2><p>From boutiques running three mandates to banks managing hundreds of live transactions globally.</p></div>
-          <div className="roleCloud">{roles.map((role) => <div className="role" key={role}>{role}</div>)}</div>
+      <section id="who" className="soft">
+        <div className="container">
+          <SectionHead align="left" label="Who Get Executa serves" title="Built for every corner of finance" body="Get Executa is deployed across the full spectrum of financial institutions - from boutique advisory firms running 3 mandates in parallel, to investment banks managing hundreds of live transactions globally." />
+          <div className="clientGrid">{clients.map(([n, title, desc, items]) => <article className="clientCard" key={title}><span>{n}</span><h3>{title}</h3><p>{desc}</p><ul>{items.map((item) => <li key={item}>{item}</li>)}</ul></article>)}</div>
         </div>
       </section>
-
-      <section><div className="logos"><h2>Trusted by professionals at leading institutions</h2><div className="logoTrack">{[...logos, ...logos].map((logo, i) => <span key={`${logo}-${i}`}>{logo}</span>)}</div></div></section>
 
       <section id="features">
-        <div className="container">
-          <SectionHead label="Platform features" title="Five pillars of institutional AI" body="Every feature is built around one question: what does a senior partner need to see, and how fast can we get it in front of them?" />
-          <div className="cards">{features.map(([title, ...items]) => <article className="card" key={title}><h3>{title}</h3><ul>{items.map((item) => <li key={item}>{item}</li>)}</ul></article>)}<article className="card gray"><h3>Forward Deployed Engineering</h3><p>We map your workflows, encode your methodology and deploy a platform that works your way from day one.</p></article></div>
+        <div className="container splitHead">
+          <div><div className="label">Platform features</div><h2>Five pillars of institutional AI</h2></div>
+          <p>Every feature built around the same question: what does a senior partner need to see, and how quickly can we get it in front of them?</p>
+        </div>
+        <div className="container featureLayout">
+          <div className="tabList">{Object.entries(featureTabs).map(([key, [label]]) => <button className={feature === key ? "active" : ""} key={key} onClick={() => setFeature(key as FeatureKey)}>{label}</button>)}</div>
+          <div className="featureList">{featureTabs[feature][1].map((item) => <div key={item}>{item}</div>)}</div>
         </div>
       </section>
 
-      <section id="product">
+      <section id="product" className="soft">
         <div className="container">
-          <SectionHead label="Product" title="One platform. Every deal type." body="Select your firm type to see how Get Executa adapts to your workflows." />
-          <div className="tabs">{Object.entries(products).map(([key, value]) => <button className={`tab ${activeProduct === key ? "active" : ""}`} key={key} onClick={() => setActiveProduct(key as keyof typeof products)}>{value.tab}</button>)}</div>
-          <div className="productPanel">
-            <div className="productCopy"><h3>{product.title}</h3><p>{product.body}</p><ul>{product.items.map((item) => <li key={item}>{item}</li>)}</ul></div>
-            <div className="mock">{product.stats.map(([k, v]) => <div className="mockRow" key={k}><span>{k}</span><b>{v}</b></div>)}</div>
-          </div>
+          <SectionHead label="Product" title="One platform. Every deal type." body="Get Executa adapts to your deal flow - not the other way around. Select your firm type to see how the platform is configured for your specific workflows." />
+          <div className="tabs">{Object.entries(products).map(([key, [label]]) => <button className={product === key ? "active tab" : "tab"} key={key} onClick={() => setProduct(key as ProductKey)}>{label}</button>)}</div>
+          <div className="productPanel"><div className="productCopy"><div className="label">{activeProduct[0]}</div><h3>{activeProduct[1]}</h3><p>{activeProduct[2]}</p><ul>{activeProduct[3].map((item) => <li key={item}>{item}</li>)}</ul></div><div className="productMock"><HeroTerminal compact /></div></div>
         </div>
       </section>
 
-      <section id="security">
+      <section id="testimonials">
         <div className="container">
-          <SectionHead label="Security & Compliance" title="Generic AI with deal data creates regulatory exposure" body="Get Executa removes this risk architecturally with firm isolation, EU data residency, row-level security and compliance-grade audit trails." />
-          <div className="cards"><Card title="SOC 2 Type II" body="Enterprise infrastructure for sensitive workflows." /><Card title="GDPR & MAR" body="Built for regulated European financial institutions." /><Card title="Zero Data Retention" body="Your data stays private to your firm and workspace." /></div>
+          <SectionHead label="Trusted by leading professionals" title="What our clients say" />
+          <div className="testimonialGrid">{testimonials.map(([text, name, role, initials]) => <article className="testimonial" key={initials}><q>{text}</q><div><span>{initials}</span><p><b>{name}</b><small>{role}</small></p></div></article>)}</div>
+        </div>
+      </section>
+
+      <section id="security" className="soft">
+        <div className="container securityBlock">
+          <div><div className="label">Security & Compliance</div><h2>Using generic AI with deal data creates regulatory exposure</h2><p>Every document sent to ChatGPT or Copilot may constitute unlawful disclosure of inside information under MAR, violate GDPR, and breach client NDA obligations. Get Executa eliminates this risk architecturally - not by policy.</p></div>
+          <div><div className="badges">{["SOC 2 TYPE II", "GDPR", "EU AI ACT", "ISO 27001 READY", "MAR COMPLIANT"].map((b) => <span key={b}>{b}</span>)}</div><blockquote>&quot;Get Executa is the first AI tool we have been comfortable deploying on live deal data. The firm isolation and EU data residency gave our compliance team everything they needed to approve it in two weeks.&quot;</blockquote></div>
         </div>
       </section>
 
       <section id="about">
-        <div className="container split">
-          <div><div className="label">About Get Executa</div><h2>An AI research lab powered by finance professionals</h2><p>Built by people from M&A advisory, private equity and investment banking who know where generic AI breaks down.</p></div>
-          <div className="stack"><article className="card"><h3>Domain expertise is in our DNA</h3><p>Our founding team has been in the IC meeting, the data room at 2am and the client call where the model was wrong.</p></article><article className="card"><h3>Research-first, product-second</h3><p>Our AI team continuously develops routing, context assembly and workflow techniques for financial outputs.</p></article></div>
+        <div className="container aboutGrid">
+          <div><div className="label">About Get Executa</div><h2>An AI research lab powered by finance professionals</h2><p>Get Executa was built by people who spent careers in M&A advisory, private equity, and investment banking - and who knew exactly why every generic AI tool broke down at the moment it mattered most.</p></div>
+          <div className="aboutList">{[["Domain expertise is in our DNA", "Our founding team comes from advisory, PE, and credit. We have been in the IC meeting, the data room at 2am, and the client call where the model was wrong. That experience is embedded in every prompt, every Skill, and every output standard the platform enforces."], ["Forward Deployed Engineering", "Every new client engagement begins with a Forward Deployed Engineer embedded with your firm for two weeks - mapping your workflows, encoding your methodology, and deploying a platform that works your way from day one. No configuration burden on your team."], ["Research-first, product-second", "Our AI research team continuously develops new models, routing logic, and context assembly techniques specifically optimised for financial workflows. Every quarterly release makes the platform materially better - not just more feature-complete."]].map(([title, body]) => <article key={title}><h3>{title}</h3><p>{body}</p></article>)}</div>
         </div>
       </section>
 
-      <section><div className="container"><SectionHead label="Trusted by leading professionals" title="What clients say" /><div className="testimonialRow"><Testimonial text="Get Executa changed what we can offer a client in the first week of a mandate." by="Managing Director, European M&A Advisory Firm" /><Testimonial text="The IC memo standard is what convinced the partners. It comes out in our firm's voice." by="Investment Director, Mid-Market PE Fund" /><Testimonial text="Our analysts now operate like senior associates and our associates operate like directors." by="COO, European Credit Fund" /></div></div></section>
-
-      <section>
-        <div className="container faq">
-          <div><div className="label">Any questions?</div><h2>Frequently asked questions</h2><a className="btn" href="mailto:hello@getexecuta.com">Ask us more</a></div>
-          <div>{faqs.map(([q, a], i) => <div className={`faqItem ${openFaq === i ? "open" : ""}`} key={q}><button className="faqQ" onClick={() => setOpenFaq(openFaq === i ? null : i)}>{q}<span>+</span></button><p>{a}</p></div>)}</div>
-        </div>
-      </section>
-
-      <section id="cta"><div className="container sectionHead"><div className="label">Ready to see it on your deals?</div><h2>The way the best investment firms work</h2><a className="btn" href="mailto:hello@getexecuta.com">Request a Call -&gt;</a></div></section>
-
-      <footer><div className="footerGrid"><div><a className="logo footerLogo" href="#"><span className="mark" /><span>Get Executa</span></a><p>The AI partner for investment banks, advisory firms and private equity.</p></div><FooterCol title="Platform" links={["What We Do", "Features", "Product", "Security"]} /><FooterCol title="Company" links={["About", "Clients", "Contact", "Careers"]} /><FooterCol title="Get started" links={["Request a Call", "Talk to Sales", "Sign in", "Documentation"]} /></div></footer>
-
+      <section id="cta" className="cta"><div className="container"><div className="label">Ready to see it on your deals?</div><h2>The way the best investment firms work</h2><div><a className="btn" href="mailto:hello@getexecuta.com">Request a Call</a><a className="btn ghost" href="mailto:hello@getexecuta.com">Talk to Sales -&gt;</a></div><p>EU data residency - Firm-private workspace - SOC 2 infrastructure - No lock-in contracts</p></div></section>
+      <Footer />
       <div className="sticky"><div className="stickyInner"><div><small>AI Partner to Finance</small><b>Get Executa</b></div><a className="btn" href="mailto:hello@getexecuta.com">Request a Call -&gt;</a></div></div>
     </>
   );
 }
 
-function SectionHead({ label, title, body }: { label: string; title: string; body?: string }) {
-  return <div className="sectionHead"><div className="label">{label}</div><h2>{title}</h2>{body && <p>{body}</p>}</div>;
+function HeroTerminal({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={compact ? "heroVisual embedded" : "heroVisual"}>
+      <div className="terminal">
+        <div className="terminalTop"><span><i /><i /><i /></span><strong>Deal Intelligence - Project Helios</strong><em>+ Skills active</em></div>
+        <div className="chat">
+          <div className="msg user">Run a full LBO on this deal using our European mid-market defaults. Include downside.</div>
+          <div className="msg">Building LBO for <b>Project Helios</b> - applying firm&apos;s European mid-market Skill (8-11x entry, 4-5yr hold, 2.5-3.5x leverage)...</div>
+          <div className="lboSummary">
+            <h4>LBO Summary - Base Case</h4>
+            {[["Entry multiple", "9.5x EV/EBITDA", ""], ["Base IRR", "22.4%", "green"], ["MOIC", "2.7x", ""], ["Downside IRR (-15% EBITDA)", "16.1%", "gold"]].map(([key, value, tone]) => <div className="summaryRow" key={key}><span>{key}</span><b className={tone}>{value}</b></div>)}
+            <div className="chips"><span>LBO.xlsx</span><span>IC Memo.docx</span><span>DD Summary</span></div>
+          </div>
+          <div className="msg">All assumptions benchmarked against <b>12 comparable European mid-market transactions</b> (PitchBook, LSEG). IC Memo drafted and ready for review. -&gt;</div>
+        </div>
+        <div className="terminalFoot"><b>Executa</b><span>3 outputs generated - 4 min 12s</span></div>
+      </div>
+    </div>
+  );
 }
 
-function Card({ n, title, body }: { n?: string; title: string; body: string }) {
-  return <article className="card gray">{n && <div className="num">{n}</div>}<h3>{title}</h3><p>{body}</p></article>;
+function Logos() {
+  return <div className="logos"><div className="logosLabel">Trusted by professionals at leading institutions</div><div className="logoTrack">{[...logos, ...logos].map((logo, i) => <span key={`${logo}-${i}`}>{logo}</span>)}</div></div>;
 }
 
-function Testimonial({ text, by }: { text: string; by: string }) {
-  return <article className="testimonial"><q>{text}</q><small>{by}</small></article>;
+function SectionHead({ label, title, body, align = "center" }: { label: string; title: string; body?: string; align?: "left" | "center" }) {
+  return <div className={`sectionHead ${align}`}><div className="label">{label}</div><h2>{title}</h2>{body && <p>{body}</p>}</div>;
+}
+
+function Footer() {
+  return <footer><div className="footerGrid"><div><a className="logo footerLogo" href="#"><span className="mark" /><span>Get Executa</span></a><p>The AI partner for investment banks, M&A advisory firms, and private equity. Institutional outputs. Firm-private. EU-hosted.</p></div><FooterCol title="Platform" links={["What We Do", "Features", "Product", "Security"]} /><FooterCol title="Company" links={["About", "Clients", "Contact", "Careers"]} /><FooterCol title="Get started" links={["Request a Call", "Talk to Sales", "Sign in", "Documentation"]} /></div><div className="footerBottom">© 2026 Get Executa - getexecuta.com - Madrid & London</div></footer>;
 }
 
 function FooterCol({ title, links }: { title: string; links: string[] }) {
