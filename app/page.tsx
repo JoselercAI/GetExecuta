@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const logos = ["Goldman Sachs", "JP Morgan", "Morgan Stanley", "KKR", "Blackstone", "Apollo", "Lazard", "Rothschild & Co", "Nomura", "UBS", "Baird", "EY", "Deloitte", "KPMG", "PwC"];
+const logos = ["Ashcroft Partners", "Whitcombe & Bell", "Ravensford Capital", "Hartley Linden", "Northgate Advisory", "Marchmont & Co", "Linwood Partners", "EY", "Deloitte", "KPMG"];
 
 const clients = [
   ["01", "Investment Banks", "Coverage and M&A teams at global and regional investment banks. Deal execution at scale - without scaling headcount.", ["Analyst productivity at VP standard", "Pitch book and CIM generation in hours", "Multi-deal workflow automation", "Comparable transactions from LSEG and PitchBook", "Compliance-grade audit trail on every output"]],
@@ -60,11 +60,22 @@ export default function Home() {
             <div className="eyebrow">AI Partner to Finance</div>
             <h1>The intelligence layer for elite financial institutions</h1>
             <p>Get Executa embeds institutional AI across your deal workflows.</p>
-            <a className="btn" href="#cta">Request a Call</a>
-            <small>EU data residency - Firm-private workspace - SOC 2 infrastructure</small>
+            <div className="heroActions">
+              <a className="btn" href="#cta">Request a Call</a>
+              <a className="btn ghost" href="#what">Explore Platform</a>
+            </div>
+            <div className="heroBadges">
+              <span>EU data residency</span>
+              <span>Firm-private workspace</span>
+              <span>SOC 2 infrastructure</span>
+            </div>
+            <div className="heroStats">
+              <article><small>Built for</small><b>Investment teams</b></article>
+              <article><small>Outputs</small><b>Models, memos, DD</b></article>
+              <article><small>Deployment</small><b>Forward deployed</b></article>
+            </div>
           </div>
         </div>
-        <HeroTerminal />
       </header>
 
       <Logos />
@@ -98,7 +109,7 @@ export default function Home() {
         <div className="container">
           <SectionHead label="Product" title="One platform. Every deal type." body="Get Executa adapts to your deal flow - not the other way around. Select your firm type to see how the platform is configured for your specific workflows." />
           <div className="tabs">{Object.entries(products).map(([key, [label]]) => <button className={product === key ? "active tab" : "tab"} key={key} onClick={() => setProduct(key as ProductKey)}>{label}</button>)}</div>
-          <div className="productPanel"><div className="productCopy"><div className="label">{activeProduct[0]}</div><h3>{activeProduct[1]}</h3><p>{activeProduct[2]}</p><ul>{activeProduct[3].map((item) => <li key={item}>{item}</li>)}</ul></div><div className="productMock"><HeroTerminal compact /></div></div>
+          <div className="productPanel"><div className="productCopy"><div className="label">{activeProduct[0]}</div><h3>{activeProduct[1]}</h3><p>{activeProduct[2]}</p><ul>{activeProduct[3].map((item) => <li key={item}>{item}</li>)}</ul></div></div>
         </div>
       </section>
 
@@ -127,27 +138,6 @@ export default function Home() {
       <Footer />
       <div className="sticky"><div className="stickyInner"><div><small>AI Partner to Finance</small><b>Get Executa</b></div><a className="btn" href="mailto:hello@getexecuta.com">Request a Call -&gt;</a></div></div>
     </>
-  );
-}
-
-function HeroTerminal({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className={compact ? "heroVisual embedded" : "heroVisual"}>
-      <div className="terminal">
-        <div className="terminalTop"><span><i /><i /><i /></span><strong>Deal Intelligence - Project Helios</strong><em>+ Skills active</em></div>
-        <div className="chat">
-          <div className="msg user">Run a full LBO on this deal using our European mid-market defaults. Include downside.</div>
-          <div className="msg">Building LBO for <b>Project Helios</b> - applying firm&apos;s European mid-market Skill (8-11x entry, 4-5yr hold, 2.5-3.5x leverage)...</div>
-          <div className="lboSummary">
-            <h4>LBO Summary - Base Case</h4>
-            {[["Entry multiple", "9.5x EV/EBITDA", ""], ["Base IRR", "22.4%", "green"], ["MOIC", "2.7x", ""], ["Downside IRR (-15% EBITDA)", "16.1%", "gold"]].map(([key, value, tone]) => <div className="summaryRow" key={key}><span>{key}</span><b className={tone}>{value}</b></div>)}
-            <div className="chips"><span>LBO.xlsx</span><span>IC Memo.docx</span><span>DD Summary</span></div>
-          </div>
-          <div className="msg">All assumptions benchmarked against <b>12 comparable European mid-market transactions</b> (PitchBook, LSEG). IC Memo drafted and ready for review. -&gt;</div>
-        </div>
-        <div className="terminalFoot"><b>Executa</b><span>3 outputs generated - 4 min 12s</span></div>
-      </div>
-    </div>
   );
 }
 
