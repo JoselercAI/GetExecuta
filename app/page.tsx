@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 
+const CALL_URL = "https://tidycal.com/mathew1/20minutes";
+const SALES_EMAIL = "mailto:hello@getexecuta.com";
+
 const logos = ["Ashcroft Partners", "Whitcombe & Bell", "Ravensford Capital", "Hartley Linden", "Northgate Advisory", "Marchmont & Co", "Linwood Partners", "EY", "Deloitte", "KPMG"];
 
 const clients = [
@@ -51,17 +54,17 @@ export default function Home() {
           <a className="logo" href="#"><span className="mark" /><span>Get Executa</span></a>
           <div className="navLinks"><a href="#what">Platform</a><a href="#who">Who We Serve</a><a href="#features">Features</a><a href="#product">Product</a><a href="#security">Security</a><a href="#about">About</a></div>
         </div>
-        <a className="navCta" href="mailto:hello@getexecuta.com">Request a Call</a>
+        <a className="navCta" href={CALL_URL}>Request a Call</a>
       </nav>
 
       <header className="hero">
         <div className="heroCopy">
           <div className="container">
-            <div className="eyebrow">AI Partner to Finance</div>
+            <div className="eyebrow">AI Partner to Financial Institutions</div>
             <h1>The intelligence layer for elite financial institutions</h1>
             <p>Get Executa embeds institutional AI across your deal workflows.</p>
             <div className="heroActions">
-              <a className="btn" href="#cta">Request a Call</a>
+              <a className="btn" href={CALL_URL}>Request a Call</a>
               <a className="btn ghost" href="#what">Explore Platform</a>
             </div>
             <div className="heroBadges">
@@ -134,9 +137,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="cta" className="cta"><div className="container"><div className="label">Ready to see it on your deals?</div><h2>The way the best investment firms work</h2><div><a className="btn" href="mailto:hello@getexecuta.com">Request a Call</a><a className="btn ghost" href="mailto:hello@getexecuta.com">Talk to Sales -&gt;</a></div><p>EU data residency - Firm-private workspace - SOC 2 infrastructure - No lock-in contracts</p></div></section>
+      <section id="cta" className="cta"><div className="container"><div className="label">Ready to see it on your deals?</div><h2>The way the best investment firms work</h2><div className="ctaActions"><a className="btn" href={CALL_URL}>Request a Call</a><a className="btn ghost" href={SALES_EMAIL}>Talk to Sales -&gt;</a></div><p>EU data residency - Firm-private workspace - SOC 2 infrastructure</p></div></section>
       <Footer />
-      <div className="sticky"><div className="stickyInner"><div><small>AI Partner to Finance</small><b>Get Executa</b></div><a className="btn" href="mailto:hello@getexecuta.com">Request a Call -&gt;</a></div></div>
+      <div className="sticky"><div className="stickyInner"><div><small>AI Partner to Finance</small><b>Get Executa</b></div><a className="btn" href={CALL_URL}>Request a Call -&gt;</a></div></div>
     </>
   );
 }
@@ -150,9 +153,9 @@ function SectionHead({ label, title, body, align = "center" }: { label: string; 
 }
 
 function Footer() {
-  return <footer><div className="footerGrid"><div><a className="logo footerLogo" href="#"><span className="mark" /><span>Get Executa</span></a><p>The AI partner for investment banks, M&A advisory firms, and private equity. Institutional outputs. Firm-private. EU-hosted.</p></div><FooterCol title="Platform" links={["What We Do", "Features", "Product", "Security"]} /><FooterCol title="Company" links={["About", "Clients", "Contact", "Careers"]} /><FooterCol title="Get started" links={["Request a Call", "Talk to Sales", "Sign in", "Documentation"]} /></div><div className="footerBottom">© 2026 Get Executa - getexecuta.com - Madrid & London</div></footer>;
+  return <footer><div className="footerGrid"><div><a className="logo footerLogo" href="#"><span className="mark" /><span>Get Executa</span></a><p>The AI partner for investment banks, M&A advisory firms, and private equity. Institutional outputs. Firm-private. EU-hosted.</p></div><FooterCol title="Platform" links={["What We Do", "Features", "Product", "Security"]} /><FooterCol title="Company" links={["About", "Clients", "Contact", "Careers"]} /><FooterCol title="Get started" links={["Request a Call", "Talk to Sales", "Sign in", "Documentation"]} /></div><div className="footerBottom">© 2026 Get Executa - getexecuta.com - New York & Madrid & London</div></footer>;
 }
 
 function FooterCol({ title, links }: { title: string; links: string[] }) {
-  return <div><h4>{title}</h4>{links.map((link) => <a href={link === "Contact" || link.includes("Call") || link.includes("Sales") ? "mailto:hello@getexecuta.com" : "#"} key={link}>{link}</a>)}</div>;
+  return <div><h4>{title}</h4>{links.map((link) => <a href={link === "Request a Call" ? CALL_URL : link === "Contact" || link.includes("Sales") ? SALES_EMAIL : "#"} key={link}>{link}</a>)}</div>;
 }
