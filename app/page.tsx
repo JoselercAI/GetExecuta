@@ -153,7 +153,7 @@ function SectionHead({ label, title, body, align = "center" }: { label: string; 
 }
 
 function Footer() {
-  return <footer><div className="footerGrid"><div><a className="logo footerLogo" href="#"><span className="mark" /><span>Get Executa</span></a><p>The AI partner for investment banks, M&A advisory firms, and private equity. Institutional outputs. Firm-private. EU-hosted.</p></div><FooterCol title="Platform" links={["What We Do", "Features", "Product", "Security"]} /><FooterCol title="Company" links={["About", "Clients", "Contact", "Careers"]} /><FooterCol title="Get started" links={["Request a Call", "Talk to Sales", "Sign in", "Documentation"]} /></div><div className="footerBottom">© 2026 Get Executa - getexecuta.com - New York & Madrid & London</div></footer>;
+  return <footer><div className="footerGrid"><div><a className="logo footerLogo" href="#"><span className="mark" /><span>Get Executa</span></a><p>The AI partner for investment banks, M&A advisory firms, and private equity. Institutional outputs. Firm-private. EU-hosted.</p></div><FooterCol title="Platform" links={["What We Do", "Features", "Product", "Security"]} /><FooterCol title="Company" links={["About", "Clients", "Contact", "Careers"]} /><FooterCol title="Get started" links={["Request a Call", "Talk to Sales", "Sign in", "Documentation"]} /></div><div className="footerBottom">© 2026 Get Executa - getexecuta.com - New York, Madrid & London</div></footer>;
 }
 
 function FooterCol({ title, links }: { title: string; links: string[] }) {
