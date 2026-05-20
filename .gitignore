@@ -3,4 +3,7 @@ node_modules
 out
 .vercel
 *.local
+.env
+.env.*
+!.env.example
 dist
