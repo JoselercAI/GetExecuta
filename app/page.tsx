@@ -5,7 +5,7 @@ import { useState } from "react";
 const CALL_URL = "https://tidycal.com/mathew1/20minutes";
 const SALES_EMAIL = "mailto:hello@getexecuta.com";
 
-const logos = ["Ashcroft Partners", "Whitcombe & Bell", "Ravensford Capital", "Hartley Linden", "Northgate Advisory", "Marchmont & Co", "Linwood Partners", "EY", "Deloitte", "KPMG"];
+const logos = ["Ashcroft Partners", "Whitcombe & Bell", "Ravensford Capital", "Hartley Linden", "Northgate Advisory", "Marchmont & Co", "Linwood Partners"];
 
 const clients = [
   ["01", "Investment Banks", "Coverage and M&A teams at global and regional investment banks. Deal execution at scale - without scaling headcount.", ["Analyst productivity at VP standard", "Pitch book and CIM generation in hours", "Multi-deal workflow automation", "Comparable transactions from LSEG and PitchBook", "Compliance-grade audit trail on every output"]],
